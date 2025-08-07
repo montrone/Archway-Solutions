@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAD-7 Assessment – Prototype</title>
+  <style>
+    :root {
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --danger: #b91c1c;
+      --success: #065f46;
+      --border: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; color: var(--text); background: var(--bg); }
+    .container { max-width: 860px; margin: 40px auto; padding: 0 20px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    .sub { color: var(--muted); margin: 0 0 20px; }
+    fieldset { border: none; margin: 0 0 22px; padding: 0; }
+    legend { font-weight: 600; margin-bottom: 10px; }
+    .q { margin: 16px 0 14px; font-weight: 600; }
+    .opt { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+    label.opt-item { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; background: #fff; cursor: pointer; }
+    label.opt-item:hover { border-color: #cbd5e1; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    button { appearance: none; border: 1px solid var(--border); background: #fff; color: var(--text); padding: 10px 14px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+    button.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .result { margin-top: 24px; border-top: 1px dashed var(--border); padding-top: 18px; display: none; }
+    .score { font-size: 20px; font-weight: 700; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-weight: 700; border: 1px solid var(--border); }
+    .sev-minimal { background: #ecfeff; }
+    .sev-mild { background: #fef3c7; }
+    .sev-moderate { background: #fee2e2; }
+    .sev-severe { background: #fecaca; }
+    .muted { color: var(--muted); }
+    .footer { margin-top: 28px; font-size: 14px; color: var(--muted); }
+    .error { color: var(--danger); font-weight: 600; margin-top: 10px; display: none; }
+    .impairment { margin-top: 8px; }
+    .sr-only { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" role="form" aria-labelledby="title">
+      <h1 id="title">GAD-7 Assessment – Prototype</h1>
+      <p class="sub">The Generalized Anxiety Disorder 7-item (GAD-7) is a brief screening questionnaire. This prototype calculates a total score and shows severity bands. It is <strong>not</strong> a diagnosis and is for demonstration only.</p>
+
+      <form id="gad7-form">
+        <fieldset>
+          <legend>Over the last 2 weeks, how often have you been bothered by the following problems?</legend>
+          <p class="muted">Select one answer per question. Options: Not at all (0), Several days (1), More than half the days (2), Nearly every day (3).</p>
+
+          <div class="q">1) Feeling nervous, anxious, or on edge</div>
+          <div class="opt" role="radiogroup" aria-label="Question 1">
+            <label class="opt-item"><input type="radio" name="q1" value="0" /> Not at all (0)</label>
+            <label class="opt-item"><input type="radio" name="q1" value="1" /> Several days (1)</label>
+            <label class="opt-item"><input type="radio" name="q1" value="2" /> More than half the days (2)</label>
+            <label class="opt-item"><input type="radio" name="q1" value="3" /> Nearly every day (3)</label>
+          </div>
+
+          <div class="q">2) Not being able to stop or control worrying</div>
+          <div class="opt" role="radiogroup" aria-label="Question 2">
+            <label class="opt-item"><input type="radio" name="q2" value="0" /> Not at all (0)</label>
+            <label class="opt-item"><input type="radio" name="q2" value="1" /> Several days (1)</label>
+            <label class="opt-item"><input type="radio" name="q2" value="2" /> More than half the days (2)</label>
+            <label class="opt-item"><input type="radio" name="q2" value="3" /> Nearly every day (3)</label>
+          </div>
+
+          <div class="q">3) Worrying too much about different things</div>
+          <div class="opt" role="radiogroup" aria-label="Question 3">
+            <label class="opt-item"><input type="radio" name="q3" value="0" /> Not at all (0)</label>
+            <label class="opt-item"><input type="radio" name="q3" value="1" /> Several days (1)</label>
+            <label class="opt-item"><input type="radio" name="q3" value="2" /> More than half the days (2)</label>
+            <label class="opt-item"><input type="radio" name="q3" value="3" /> Nearly every day (3)</label>
+          </div>
+
+          <div class="q">4) Trouble relaxing</div>
+          <div class="opt" role="radiogroup" aria-label="Question 4">
+            <label class="opt-item"><input type="radio" name="q4" value="0" /> Not at all (0)</label>
+            <label class="opt-item"><input type="radio" name="q4" value="1" /> Several days (1)</label>
+            <label class="opt-item"><input type="radio" name="q4" value="2" /> More than half the days (2)</label>
+            <label class="opt-item"><input type="radio" name="q4" value="3" /> Nearly every day (3)</label>
+          </div>
+
+          <div class="q">5) Being so restless that it is hard to sit still</div>
+          <div class="opt" role="radiogroup" aria-label="Question 5">
+            <label class="opt-item"><input type="radio" name="q5" value="0" /> Not at all (0)</label>
+            <label class="opt-item"><input type="radio" name="q5" value="1" /> Several days (1)</label>
+            <label class="opt-item"><input type="radio" name="q5" value="2" /> More than half the days (2)</label>
+            <label class="opt-item"><input type="radio" name="q5" value="3" /> Nearly every day (3)</label>
+          </div>
+
+          <div class="q">6) Becoming easily annoyed or irritable</div>
+          <div class="opt" role="radiogroup" aria-label="Question 6">
+            <label class="opt-item"><input type="radio" name="q6" value="0" /> Not at all (0)</label>
+            <label class="opt-item"><input type="radio" name="q6" value="1" /> Several days (1)</label>
+            <label class="opt-item"><input type="radio" name="q6" value="2" /> More than half the days (2)</label>
+            <label class="opt-item"><input type="radio" name="q6" value="3" /> Nearly every day (3)</label>
+          </div>
+
+          <div class="q">7) Feeling afraid as if something awful might happen</div>
+          <div class="opt" role="radiogroup" aria-label="Question 7">
+            <label class="opt-item"><input type="radio" name="q7" value="0" /> Not at all (0)</label>
+            <label class="opt-item"><input type="radio" name="q7" value="1" /> Several days (1)</label>
+            <label class="opt-item"><input type="radio" name="q7" value="2" /> More than half the days (2)</label>
+            <label class="opt-item"><input type="radio" name="q7" value="3" /> Nearly every day (3)</label>
+          </div>
+
+          <div class="impairment">
+            <label for="impairment"><strong>If you checked any problems</strong>, how difficult have these made it for you at work, home, or with other people?</label>
+            <select id="impairment" name="impairment">
+              <option value="" selected>Choose one (optional)</option>
+              <option value="0">Not difficult at all</option>
+              <option value="1">Somewhat difficult</option>
+              <option value="2">Very difficult</option>
+              <option value="3">Extremely difficult</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <button type="button" class="primary" id="calcBtn">Calculate score</button>
+          <button type="reset" id="resetBtn">Reset</button>
+          <button type="button" id="printBtn" title="Print or save as PDF">Print</button>
+        </div>
+        <div id="error" class="error" aria-live="polite">Please answer all seven questions.</div>
+
+        <div id="result" class="result" aria-live="polite">
+          <div class="score" id="scoreText">Score: – / 21</div>
+          <div id="severityWrap" style="margin:8px 0 12px;"></div>
+          <div id="interpretation" class="muted"></div>
+        </div>
+
+        <div class="footer">
+          <p><strong>Disclaimer:</strong> GAD-7 is a screening tool, not a diagnosis. If you have concerns about anxiety or well-being, consider speaking with a licensed healthcare professional. If you are in crisis, call your local emergency number or a crisis hotline immediately.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('gad7-form');
+    const calcBtn = document.getElementById('calcBtn');
+    const result = document.getElementById('result');
+    const scoreText = document.getElementById('scoreText');
+    const severityWrap = document.getElementById('severityWrap');
+    const interpretation = document.getElementById('interpretation');
+    const errorEl = document.getElementById('error');
+    const printBtn = document.getElementById('printBtn');
+
+    function getScore() {
+      let total = 0;
+      for (let i = 1; i <= 7; i++) {
+        const checked = form.querySelector(`input[name="q${i}"]:checked`);
+        if (!checked) return { ok: false };
+        total += parseInt(checked.value, 10);
+      }
+      return { ok: true, total };
+    }
+
+    function severityBand(score) {
+      if (score <= 4) return { key: 'minimal', label: 'Minimal anxiety (0–4)' };
+      if (score <= 9) return { key: 'mild', label: 'Mild anxiety (5–9)' };
+      if (score <= 14) return { key: 'moderate', label: 'Moderate anxiety (10–14)' };
+      return { key: 'severe', label: 'Severe anxiety (15–21)' };
+    }
+
+    function adviceText(score) {
+      if (score <= 4) return 'Your responses suggest minimal symptoms. If you still have concerns, consider monitoring over time or discussing with a clinician.';
+      if (score <= 9) return 'Mild symptoms. If symptoms persist or interfere with life, consider self‑care strategies and/or consulting a healthcare professional.';
+      if (score <= 14) return 'Moderate symptoms. Consider speaking with a licensed healthcare professional for evaluation and support.';
+      return 'Severe symptoms. It may be helpful to seek professional support soon. If you feel unsafe, contact emergency services or a crisis hotline.';
+    }
+
+    calcBtn.addEventListener('click', () => {
+      const res = getScore();
+      if (!res.ok) {
+        errorEl.style.display = 'block';
+        result.style.display = 'none';
+        return;
+      }
+      errorEl.style.display = 'none';
+      const score = res.total;
+      const sev = severityBand(score);
+      scoreText.textContent = `Score: ${score} / 21`;
+      severityWrap.innerHTML = `<span class="badge sev-${sev.key}">${sev.label}</span>`;
+      interpretation.textContent = adviceText(score);
+      result.style.display = 'block';
+      // Move focus to results for accessibility
+      result.setAttribute('tabindex', '-1');
+      result.focus();
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      result.style.display = 'none';
+      errorEl.style.display = 'none';
+      interpretation.textContent = '';
+      severityWrap.innerHTML = '';
+      scoreText.textContent = 'Score: – / 21';
+      // Return focus to form start
+      document.getElementById('title').focus();
+    });
+
+    printBtn.addEventListener('click', () => window.print());
+  </script>
+</body>
+</html>
